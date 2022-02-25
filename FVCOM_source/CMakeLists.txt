@@ -206,9 +206,11 @@ endforeach()
 # we need to do this differently but now just happy that this links
 target_include_directories(fvcom PUBLIC libs/julian/include)
 target_link_libraries(fvcom PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/julian/libjulian.a)
+add_dependencies(fvcom julian)
 
 # we need to do this differently but now just happy that this links
 target_link_libraries(fvcom PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/metis/libmetis.a)
+add_dependencies(fvcom metis)
 
 
 add_executable(FVCOM_exe fvcom.F)

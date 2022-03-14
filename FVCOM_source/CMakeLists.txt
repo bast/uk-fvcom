@@ -326,6 +326,11 @@ if(ENABLE_PROJ)
     DEPENDEES configure
     )
 
+  target_link_libraries(fvcom
+    PUBLIC
+      ${CMAKE_CURRENT_BINARY_DIR}/fproj/libfproj4.a
+      ${CMAKE_CURRENT_BINARY_DIR}/install/proj/lib/libproj.a
+    )
   target_compile_definitions(fvcom PRIVATE PROJ)
   target_include_directories(fvcom PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/install/fproj/include)
 

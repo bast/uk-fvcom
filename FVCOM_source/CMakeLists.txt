@@ -223,15 +223,15 @@ target_link_libraries(FVCOM_exe PRIVATE fvcom)
 
 option(ENABLE_DOUBLE_PRECISION "Enable DOUBLE_PRECISION" OFF)
 if(ENABLE_DOUBLE_PRECISION)
-  target_compile_definitions(fvcom PRIVATE DOUBLE_PRECISION)
+  target_compile_definitions(fvcom PUBLIC DOUBLE_PRECISION)
 endif()
 
 
 option(ENABLE_MULTIPROCESSOR "Enable MULTIPROCESSOR" ON)
 if(ENABLE_MULTIPROCESSOR)
   find_package(MPI REQUIRED COMPONENTS Fortran)
-  target_compile_definitions(fvcom PRIVATE MULTIPROCESSOR)
-  target_link_libraries(fvcom PRIVATE MPI::MPI_Fortran)
+  target_compile_definitions(fvcom PUBLIC MULTIPROCESSOR)
+  target_link_libraries(fvcom PUBLIC MPI::MPI_Fortran)
 endif()
 
 
@@ -269,15 +269,15 @@ if(ENABLE_FABM)
       mod_fabm_data.F
     )
 
-  target_compile_definitions(fvcom PRIVATE FABM)
-  target_link_libraries(fvcom PRIVATE fabm yaml)
+  target_compile_definitions(fvcom PUBLIC FABM)
+  target_link_libraries(fvcom PUBLIC fabm yaml)
 endif()
 
 
 option(ENABLE_NH "Enable NH" OFF)
 if(ENABLE_NH)
   message(FATAL_ERROR "NH requires PETSc but for this we need to write a FindPETSc.cmake first")
-  target_compile_definitions(fvcom PRIVATE NH)
+  target_compile_definitions(fvcom PUBLIC NH)
 endif()
 
 
@@ -331,8 +331,8 @@ if(ENABLE_PROJ)
       ${CMAKE_CURRENT_BINARY_DIR}/fproj/libfproj4.a
       ${CMAKE_CURRENT_BINARY_DIR}/install/proj/lib/libproj.a
     )
-  target_compile_definitions(fvcom PRIVATE PROJ)
-  target_include_directories(fvcom PRIVATE ${CMAKE_CURRENT_BINARY_DIR}/install/fproj/include)
+  target_compile_definitions(fvcom PUBLIC PROJ)
+  target_include_directories(fvcom PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/install/fproj/include)
 
   add_dependencies(fvcom fproj)
   add_dependencies(fproj proj)
@@ -346,21 +346,21 @@ endif()
 option(ENABLE_HEATING_CALCULATED "Enable HEATING_CALCULATED" OFF)
 if(ENABLE_HEATING_CALCULATED)
   target_sources(fvcom PRIVATE mod_heatflux.F)
-  target_compile_definitions(fvcom PRIVATE HEATING_CALCULATED)
+  target_compile_definitions(fvcom PUBLIC HEATING_CALCULATED)
 endif()
 
 
 option(ENABLE_DYE_RELEASE "Enable DYE_RELEASE" OFF)
 if(ENABLE_DYE_RELEASE)
   target_sources(fvcom PRIVATE mod_dye.F)
-  target_compile_definitions(fvcom PRIVATE DYE_RELEASE)
+  target_compile_definitions(fvcom PUBLIC DYE_RELEASE)
 endif()
 
 
 option(ENABLE_WAVE_CURRENT_INTERACTION "Enable WAVE_CURRENT_INTERACTION" OFF)
 if(ENABLE_WAVE_CURRENT_INTERACTION)
   target_sources(fvcom PRIVATE mod_wave_current_interaction.F)
-  target_compile_definitions(fvcom PRIVATE WAVE_CURRENT_INTERACTION)
+  target_compile_definitions(fvcom PUBLIC WAVE_CURRENT_INTERACTION)
 endif()
 
 
@@ -376,7 +376,7 @@ foreach(feature
   )
   option(ENABLE_${feature} "Enable ${feature}" ON)
   if(ENABLE_${feature})
-    target_compile_definitions(fvcom PRIVATE ${feature})
+    target_compile_definitions(fvcom PUBLIC ${feature})
   endif()
 endforeach()
 
@@ -430,6 +430,6 @@ foreach(feature
   )
   option(ENABLE_${feature} "Enable ${feature}" OFF)
   if(ENABLE_${feature})
-    target_compile_definitions(fvcom PRIVATE ${feature})
+    target_compile_definitions(fvcom PUBLIC ${feature})
   endif()
 endforeach()
